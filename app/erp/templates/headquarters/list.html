@@ -1,0 +1,57 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/jszip-2.5.0/jszip.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.html5.min.js' %}"></script>
+
+    <script src="{% static 'js/listHeadquarters.js' %}"></script>
+{% endblock %}
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 5%;">Opciones</th>
+        <th scope="col" style="width: 5%;">#</th>
+        <th scope="col" style="width: 5%;">Estado</th>
+        <th scope="col" style="width: 10%;">DNI/NIT</th>
+        <th scope="col" style="width: 10%;">Cliente</th>
+        <th scope="col" style="width: 10%;">Sede</th>
+        <th scope="col" style="width: 15%;">Direccion</th>
+        <th scope="col" style="width: 10%;">Ciudad</th>
+    </tr>
+{% endblock %}  
+  
+{% block javascript %}
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-eye"></i> Contacto de la sede</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered" id="tblDetalle">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 10%;">Contacto</th>
+                        <th scope="col" style="width: 10%;">Numero de contacto</th>
+                        <th scope="col" style="width: 5%;">Email de contacto</th>
+                        <th scope="col" style="width: 5%;">Observaciones</th>       
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

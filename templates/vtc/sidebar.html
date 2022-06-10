@@ -1,0 +1,123 @@
+{% load static %}
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+    <a href="https://www.emcali.com.co/" class="brand-link">
+        <img src="{% static 'img/layoutlogo.png' %}"
+             alt="AdminLTE Logo" width="150" style="margin-top: 5px;">
+        <span class="brand-text font-weight-light">
+            <img src="{% static 'img/emcaliletras.png' %}" width="180" style="margin-left: -155px;">
+        </span>
+    </a>
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{% static 'img/avatar.jpg' %}" class="img-circle" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="" class="d-block">{{ request.user.username }}</a>
+            </div>
+        </div>
+        
+        <nav class="mt-2">
+            <ul class="dropdown nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li> 
+                    <a href="#" class="nav-link button-dropdown">
+                        <p>
+                            <i class="nav-icon fas fa-users"></i>
+                           Corporativos
+                        </p>
+                    </a>
+            
+                        <ul class="dropdown " style="list-style-type: none;" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="{% url 'erp:client_list' %}" class="nav-link">      
+                                <p>
+                                    <i class="nav-icon fas fa-user"></i>
+                                    Clientes
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'erp:headquarters_list' %}" class="nav-link">
+                                <p>
+                                    <i class="nav-icon fas fa-globe"></i>
+                                    Sedes
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'erp:create_sale' %}" class="nav-link">      
+                                <p>
+                                    <i class="nav-icon fas fa-shopping-cart"></i>
+                                    Ventas
+                                </p>
+                            </a>
+                        </li>
+                     </ul>
+                </li>
+            </ul>
+            </nav>
+            <nav class="mt-2">
+            <ul class="dropdown nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li>
+                    <a href="#" class="nav-link button-dropdown">
+                        <p>
+                            <i class="nav-icon fas fa-boxes"></i>
+                            Bodega
+                        </p>
+                    </a>
+                
+                    <ul class="dropdown " style="list-style-type: none;" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="{% url 'warehouse:device_list' %}" class="nav-link">      
+                                <p>
+                                    <i class="nav-icon fas fa-laptop"></i>
+                                    Dispositivos
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="dropdown " style="list-style-type: none;" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="{% url 'warehouse:product_list' %}" class="nav-link">      
+                                <p>
+                                    <i class="nav-icon fas fa-briefcase"></i>
+                                    Productos
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                </li>
+            </ul>
+        </nav>
+
+        <!-- <nav>
+            <ul>
+              <li>
+                <a href="#" class="button-dropdown"> Información institucional</a>
+                <ul class="dropdown">
+                  <li>
+                    <a href="#" class="button-dropdown">Perfiles Directivos y Organigrama</a>
+                    <ul class="dropdown"></li>
+                      <li>
+                        <a href="#">Organigrama</a>
+                      </li>
+                      <li>
+                        <a href="#">Despacho Superintendente de Industria y Comercio</a>
+                      </li>
+                </ul>
+              </li>
+            </ul>
+          </nav> -->
+    </div>
+</aside>
+
+<script>
+    $(function() {
+      $('.button-dropdown').click(function() {
+
+        $(this).siblings('.dropdown').toggle("swing");
+
+      });
+    });
+  </script>

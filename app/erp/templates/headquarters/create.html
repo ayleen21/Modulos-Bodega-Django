@@ -1,0 +1,237 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+{% block head %}
+    {% block head_form %}
+    <style>
+        .abs-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+
+        .form {
+        width: 450px;
+        }
+    </style>
+    {% endblock %}
+{% endblock %}
+{% block content %}
+    <form method="post" action="." enctype="multipart/form-data">
+        <div class="card card-dark">
+            <div class="card-header">
+                <h3 class="card-title">
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus"></i>
+                    {% else %}
+                        <i class="fas fa-edit"></i>
+                    {% endif %}
+
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="{{ action }}">
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al querer guardar el registro</h5>
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                    <div class="form-group">
+                        <label for="email">Estado:</label>
+                        {{ form.state|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Cliente:</label>
+                        {{ form.client|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Nombre de la sede:</label>
+                        {{ form.h_name|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Ciudad:</label>
+                        {{ form.city|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+
+                    <label for="">Direccion:</label>
+                    <div class="form-group abs-center">
+                        <div class="form-group">
+                            <label for="email">Via:</label>
+                            {{ form.via|add_class:'form-control'|attr:'autocomplete:off'}}
+                        </div>
+                        <div class="form-group">
+                            <label for="email">#Via:</label>
+                            {{ form.no_via|add_class:'form-control'|attr:'autocomplete:off'}}
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Prefijo:</label>
+                            {{ form.prefix|add_class:'form-control'|attr:'autocomplete:off'}}
+                        </div>
+                        <div class="form-group">
+                            <label for="email">#Via generadora:</label>
+                            {{ form.generating_via|add_class:'form-control'|attr:'autocomplete:off'}}
+                        </div>
+                        <div class="form-group">    
+                            <label for="email">Sufijo:</label>
+                            {{ form.suffix|add_class:'form-control'|attr:'autocomplete:off'}}
+                        </div>
+                    </div>
+                    <!-- AGRUPADO -->
+                    <div class="form-group" style="text-align: center;">
+                        <label for="email">Agrupado:</label><br>
+                        <div class="alert alert-warning" role="alert" style="width: 50%; margin: 0 auto;">Porfavor no marcar esta casilla si la sede <b> NO </b> se encuentra en una agrupacion</div><br>
+                        {{ form.grouped|add_class:'form-control'|attr:'autocomplete:off'}} 
+                    </div>
+
+                    <div id="is_grouped" style="display: none;">
+                        <div class="form-group abs-center">
+                            <div class="form-group">
+                                <label for="email">Tipo grupo:</label>
+                                {{ form.group_type|add_class:'form-control'|attr:'autocomplete:off'}}
+                            </div>
+                            <div class="form-group">    
+                                <label for="email">#Grupo:</label>
+                                {{ form.group_number|add_class:'form-control'|attr:'autocomplete:off'}}
+                            </div>
+                            <div class="form-group"> 
+                                <label for="email">Tipo terminal:</label>
+                                {{ form.type_terminal|add_class:'form-control'|attr:'autocomplete:off'}}
+                            </div>
+                            <div class="form-group">
+                                <label for="email">#Terminal:</label>
+                                {{ form.number_terminal|add_class:'form-control'|attr:'autocomplete:off'}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Persona de contacto:</label>
+                        {{ form.contact_name|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+                    <div class="form-group">
+                        <label id="email" for="email">Telefono de contacto:</label>
+                        {{ form.contact_phone|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+                    <div class="form-group">
+                        <label id="legal_representative_label" for="email">Email de contacto:</label>
+                        {{ form.contact_email|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Observaciones:</label>
+                        {{ form.observations|add_class:'form-control'|attr:'autocomplete:off'}}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fas fa-save"></i> Guardar registro
+                </button>
+                <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+                
+                {% block segment_niche %}
+                    
+                {% endblock segment_niche %}
+                    
+            </div>
+        </div>
+    </form>
+    <script>
+        var select_niche = $('select[name="niche"]');
+        $(function () {
+
+             $('.select2').select2({
+                 theme: "bootstrap4",
+                 // language: 'es'
+             });
+
+            $('select[name="segment"]').on('change', function () {
+                var id = $(this).val();
+                var options = '<option value="">--------------------</option>';
+                if (id === '') {
+                    select_niche.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'search_niche_id',
+                        'id': id
+                    },
+                    dataType: 'json',
+                }).done(function (data) {
+                    if (!data.hasOwnProperty('error')) {
+                        select_niche.html('').select2({
+                            theme: "bootstrap4",
+                            // language: 'es',
+                            data: data
+                        });
+                        /*$.each(data, function (key, value) {
+                            options += '<option value="' + value.id + '">' + value.name + '</option>';
+                        });*/
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                    //select_products.html(options);
+                });
+            });
+        });
+
+
+        {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n';
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error'
+            });
+        {% endif %}
+
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+            var parameters = new FormData(this);
+            submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
+                location.href = '{{ list_url }}';
+            });
+        });
+
+        // AGRUPADO - NO AGRUPADO
+
+        const checkboxgruped = document.getElementById("is_grouped");
+
+        const checkboxAction = document.getElementById("is_groupedcheckbox");
+
+
+        checkboxAction.addEventListener('change', (e) =>{
+        console.log( e.target.checked );
+    
+        if ( e.target.checked === true ) {
+            checkboxgruped.style.display = "block";
+        }else{
+            checkboxgruped.style.display = "none";
+        }
+})
+    </script>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'form.html' %}
+{% csrf_token %}
+
+{% block product %}
+<a href="{% url 'warehouse:subserviceCreate' %}" class="btn btn-success btn-flat" style="float:right;">
+    <i class="fas fa-circle"></i> Agregar Subservicio
+</a>
+{% endblock product %}

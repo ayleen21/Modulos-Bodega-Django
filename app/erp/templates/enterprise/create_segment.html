@@ -1,0 +1,8 @@
+{% extends 'form.html' %}
+{% csrf_token %}
+
+{% block segment_niche %}
+<a href="{% url 'erp:nicheCreate' %}" class="btn btn-success btn-flat" style="float:right;">
+    <i class="fas fa-circle"></i> Agregar nicho
+</a>
+{% endblock segment_niche %}

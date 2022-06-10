@@ -1,0 +1,25 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'js/listDevice.js' %}"></script>
+{% endblock %}
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 1%;">#</th>
+        <th scope="col" style="width: 10%;">Estado</th>
+        <th scope="col" style="width: 5%;">Dispositivo</th>
+        <th scope="col" style="width: 5%;">Marca</th>
+        <th scope="col" style="width: 5%;">MAC</th>
+        <th scope="col" style="width: 5%;">Modelo</th>
+        <th scope="col" style="width: 5%;">Serial</th>
+        <th scope="col" style="width: 5%;">Valor</th>
+        <th scope="col" style="width: 13%;">Descripcion</th>
+        <th scope="col" style="width: 10%;">Imagen</th>
+        <th scope="col" style="width: 8%;">Opciones</th>
+    </tr>
+{% endblock %}  
+            
+      
+{% block javascript %}
+
+{% endblock %}

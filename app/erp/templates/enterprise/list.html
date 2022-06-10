@@ -1,0 +1,22 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'js/listEnterprise.js' %}"></script>
+{% endblock %}
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 5%;">#</th>
+        <th scope="col" style="width: 5%;">Estado</th>
+        <th scope="col" style="width: 15%;">Representante legal</th>
+        <th scope="col" style="width: 10%;">NIT</th>
+        <th scope="col" style="width: 10%;">Empresa</th>
+        <th scope="col" style="width: 10%;">Telefono</th>
+        <th scope="col" style="width: 10%;">Segmento</th>
+        <th scope="col" style="width: 10%;">Nicho</th>
+        <th scope="col" style="width: 5%;">Opciones</th>
+    </tr>
+{% endblock %}  
+  
+{% block javascript %}
+
+{% endblock %}

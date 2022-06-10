@@ -1,0 +1,416 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block head_listwizard %}
+<!---JQUERY-->
+<link href="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+<!----SELEC2-->
+<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+<!-------DATATABLES-->
+<link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+<link rel="stylesheet"
+      href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+<script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+<!-------JAVASCRIPT-->
+<script src="{% static 'js/sale/formSale.js' %}"></script>
+
+{% endblock %}
+
+{% load widget_tweaks %}
+
+{% csrf_token %}
+
+{% block css_wizard %}
+<link rel="stylesheet" href="{% static 'css/stylesalewizard.css' %}">
+
+{% endblock css_wizard %}
+
+{% block wizard %}
+
+<section class="multi_step_form">
+    <form id="msform" method="post" action="." enctype="multipart/form-data">
+        <!-- Tittle -->
+        <div class="tittle">
+            <h1>Selecciona sus productos:</h1>
+            <p class="category">Bienvenidos al Portal de Servicios de EMCALI, Por favor registre la informacion
+                solicitada.
+            </p>
+        </div>
+        <!-- progressbar -->
+        <ul id="progressbar">
+            <li class="active">Cliente</li>
+            <li>Servicios de Voz</li>
+            <li>Servicio de Datos</li>
+            <li>Servicio de Video</li>
+            <li>Finalizar Compra</li>
+        </ul>
+        <!-- fieldsets -->
+        {% csrf_token %}
+        <fieldset>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-regular fa-user"></i> Informacion del Cliente</h3>
+                </div>
+                <br>
+                <h4>Seleccione o cree un nuevo cliente:</h4>
+                <div class="form-group">
+                    <label>Buscador de Clientes:</label>
+                    <div class="input-group" name="searchClient">
+                        {{ form.client}}
+                        <div class="input-group-append">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Opciones</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item btnListClient"><i class="fas fa-eye"></i> Ver Cliente </a>
+                                <a class="dropdown-item btnClient"><i class="fas fa-user-plus"></i> Crear Cliente</a>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <div class="content">
+                            <h4> Seleccione o cree la sede a la que desea añadir el servicio:</h4>
+                            <div class="form-group" style="width:100;">
+                                <label>Buscador de sedes:</label>
+                                <div class="input-group" name="search_headquarters">
+                                    {{ form.headquarters}}
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Opciones</button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item btnListH"><i class="fas fa-search"></i> Ver Sede</a>
+                                            <a class="dropdown-item "><i class="fas fa-plus"></i> Crear Sede</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                                <table class="table table-hover" id="TableH">
+                                <thead>
+                                    <tr>
+                                        <th>Estado</th>
+                                        <th>DNI/NIT</th>
+                                        <th>Cliente</th>
+                                        <th>Sede</th>
+                                        <th>Direccion</th>
+                                        <th>Ciudad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                                </table>
+                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        
+            
+            <button type="button" class="next action button btn btn-primary" style="float:center;">Continuar</button>
+        </fieldset>
+        <fieldset>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-phone-volume"></i> Informacion del Producto</h3>
+                </div>
+                <div class="card-body">
+                    <h4>¿Desea adquirir Servicios de Voz?</h4>
+                    <div class="form-group">
+                        <label>Servicios disponibles:</label>
+                    <select class="service2" data-style="btn-primary" multiple="multiple">
+                        <option {{form.service}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Subservicios disponibles:</label>
+                    <select class="service2" data-style="btn-primary" multiple="multiple">
+                        <option {{form.subservice}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="card card-default" >
+                    <div class="card-header" >
+                        <h3 class="card-title" style="align-items: center;">
+                        <i class="fas fa-plus"></i>
+                    Atributos Adicionales:</h3>
+                    </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Componentes disponibles:</label>
+                    <select class="service2" data-style="btn-primary" multiple="multiple">
+                        <option {{form.component}}</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+            <button type="button" class="action button previous btn btn-danger" style="float:end;">Atras</button>
+            <button type="button" class="next action button btn btn-primary" style="float:inline-end;">Continuar</button>
+
+        </fieldset>
+        <fieldset>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-wifi"></i> Informacion del Producto</h3>
+                </div>
+                <div class="card-body">
+                    <h4>¿Desea adquirir Servicios de Datos?</h4>
+                    <div class="form-group">
+                        <label>Servicios disponibles:</label>
+                    <select class="service2" data-style="btn-primary" multiple="multiple">
+                        <option {{form.service}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Subservicios disponibles:</label>
+                    <select class="service2" data-style="btn-primary" multiple="multiple">
+                        <option {{form.subservice}}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="card card-default" >
+                    <div class="card-header" >
+                        <h3 class="card-title" style="align-items: center;">
+                        <i class="fas fa-plus"></i>
+                    Atributos Adicionales:</h3>
+                    </div>
+                    <div class="card-body">
+                    <div class="row">
+                    <div class="col-sm-6">
+                    <label>Velocidad</label>
+                        <select class="speed">
+                            <option {{form.speed}}</option> 
+                        </select>
+                    </div>
+            
+                    <div class="col-sm-6" >
+                        <label>Pool IP</label>
+                        <select class="speed" >
+                            <option {{form.pool_ip}}</option>
+                        </select>
+                    </div>
+                    <div class="card-body">   
+                        <div class="row">
+                        <div class="col-md-6" >
+                            <label>Componentes disponibles:</label>
+                            <select class="service2" style="float:right;" data-style="btn-primary" multiple="multiple">
+                                <option {{form.component}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>IP Fija:</label>
+                            <div class="input-group" style="height: 77%;">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                            </div>
+                            {{form.static_ip}}
+                        </div>
+                            </div>
+                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+            <button type="button" class="action button previous btn btn-danger" style="float:end;">Atras</button>
+            <button type="button" class="next action button btn btn-primary" style="float:inline-end;">Continuar</button>
+
+        </fieldset>
+        <fieldset>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-tv"></i> Informacion del Producto</h3>
+                </div>
+
+                <div class="card-body">
+                    <h4>¿Desea adquirir Servicios de Video?</h4>
+                    <div class="form-group">
+                        <label>Servicios disponibles:</label>
+                        {{form.service}}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Subservicios disponibles:</label>
+                        {{form.subservice}}
+                    </div>
+                </div>
+                <div class="card card-default" >
+                    <div class="card-header" >
+                        <h3 class="card-title" style="align-items: center;">
+                        <i class="fas fa-plus"></i>
+                    Atributos Adicionales:</h3>
+                    </div>
+                <div class="card-body">   
+                    <div class="row">
+                    <div class="col-md-6" >
+                        <label>Planes Disponibles</label>
+                        <select class="plan"  data-style="btn-primary">
+                            <option {{form.plans}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Dir Server:</label>
+                        <div class="input-group" style="height: 77%;">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                        </div>
+                        {{form.dir_server}}
+                    </div>
+                    </div>
+                    <div class="card-body" style="text-align:center;">
+                        <div class="form-group" style="text-align:center;" >
+                            <label>Componentes disponibles:</label>
+                            {{form.component}}
+                        </div>
+                    </div> 
+
+                
+                    </div>
+                </div>
+            </div>
+                
+            </div>
+            <button type="button" class="action button previous btn btn-danger" style="float:end;">Atras</button>
+            <button type="button" class="next action button btn btn-primary" style="float:inline-end;">Continuar</button>
+        </fieldset>
+        <fieldset>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-shopping-cart"></i>Informacion de la Venta</h3>
+                </div>
+                <div class="card-body">
+
+                    <h4>Usted selecciono las siguientes opciones:</h4>
+                    <div class="form-group">
+                        <label>Fecha de solicitud del servicio: </label>
+                        {{form.date_joined}}
+                    </div>
+                </div>
+            </div>
+            <p>Por favor, confirme su compra</p>
+            <button type="button" class="action button previous btn btn-danger" style="float:center;">Regresar</button>
+            <button type="submit" class="btn btn-primary ">Confirmar</button>
+        </fieldset>
+    </form>
+</section>
+
+<!---------Modal crear cliente cliente------------------->
+<div class="modal fade" id="myModalCreateClient" tabindex="-1" role="dialog" aria-hidden="true">
+    <form id="frmClient" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog modal-ls role="document">
+            <div class="modal-content">
+                <div class="modal-header btn-default">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <b><i class="fas fa-user-plus"></i> Crear Cliente
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for field in frmClient.visible_fields %}
+                    <div class="form-group">
+                        <label for="email">{{ field.label }}:</label>
+                        {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">
+                        <i class="fas fa-save"></i> Guardar Cliente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!--------Fin del modal de crear cliente-->
+
+<!------------------Modal visualizar informacion del cliente-->
+<div class="modal fade" id="myModalListClient" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header btn-default">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <b><i class="fas fa-search "></i> Listado de Clientes
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" id="tblClients">
+                        <thead>
+                        <tr>
+                            <th style="width:2%;">T/Cliente</th>
+                            <th style="width:3%;">NIT/DNI:</th>
+                            <th style="width:6%;">Nombre</th>
+                            <th style="width:2%;">Ciudad</th>
+                            <th style="width:2%;">Representante Legal</th>
+                            <th style="width:3%;">Telefono</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+</div>
+
+<!-----Modal visualizar listado de sedes---------------->
+<div class="modal fade" id="myModalListH" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header btn-default">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <b><i class="fas fa-search "></i> Listado de Sedes
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="tblH">
+                    <thead>
+                    <tr>
+                        <th style="width:2%;">Opciones</th>
+                        <th style="width:2%;">Estado</th>
+                        <th style="width:3%;">DNI/NIT:</th>
+                        <th style="width:6%;">Cliente</th>
+                        <th style="width:2%;">Sede</th>
+                        <th style="width:2%;">Direccion</th>
+                        <th style="width:3%;">Ciudad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock wizard %}
+
